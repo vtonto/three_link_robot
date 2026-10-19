@@ -26,3 +26,4 @@ class RobotParameters:
             raise ValueError("com_offsets must lie within each link")
         if not np.isfinite(self.gravity) or self.gravity < 0:
             raise ValueError("gravity must be finite and nonnegative")
+

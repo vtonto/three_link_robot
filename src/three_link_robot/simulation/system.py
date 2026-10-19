@@ -24,3 +24,4 @@ def make_robot_rhs(robot, controller, trajectory, *, dynamics=forward_dynamics):
         return np.concatenate((dq, ddq))
 
     return rhs
+

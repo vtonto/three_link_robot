@@ -205,3 +205,4 @@ def test_sinusoidal_trajectory_derivatives():
         rtol=1e-6,
         atol=1e-8,
     )
+

@@ -2,6 +2,16 @@ import numpy as np
 from .parameters import RobotParameters
 from scipy.linalg import expm
 
+
+def jacobian_dot_times_dq(q, dq, robot):
+    """TODO OSC-01: 返回 Jdot(q,dq) @ dq，shape (2,), m/s²。
+
+    提示：theta=cumsum(q)，omega=cumsum(dq)。对末端位置求两次导数，
+    取 ddq=0 时的部分。它不是 J @ ddq，也不是完整末端加速度。
+    用沿 dq 方向的 Jacobian 中心差分验证，不要通过积分估计。
+    """
+    raise NotImplementedError("OSC-01: implement jacobian_dot_times_dq in kinematics.py")
+
 def forward_kinematics(q: np.ndarray, robot: RobotParameters) -> np.ndarray:
     """返回 (4, 2)：基座、关节2、关节3、末端的世界坐标，单位 m。"""
     l1, l2, l3 = robot.lengths

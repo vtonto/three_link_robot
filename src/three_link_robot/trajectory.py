@@ -52,3 +52,4 @@ def sinusoidal(q_center, amplitude, omega):
         return JointReference(q, dq, ddq)
 
     return trajectory
+

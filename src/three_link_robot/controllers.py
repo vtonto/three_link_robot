@@ -64,3 +64,4 @@ def computed_torque_control(t: float, q: np.ndarray, dq: np.ndarray,
     ddq = reference.ddq + kp * pos_err + kd * vel_err
     tau = inverse_dynamics(q, dq, ddq, robot)
     return tau
+

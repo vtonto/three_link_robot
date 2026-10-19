@@ -31,3 +31,4 @@ def integrate(rhs: Callable, initial_state, times, *, rtol=1e-7, atol=1e-9) -> S
     if not result.success:
         raise RuntimeError(f"Integration failed: {result.message}")
     return SimulationResult(result.t, result.y.T)
+

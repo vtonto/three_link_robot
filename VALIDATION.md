@@ -35,3 +35,4 @@
 - `python -m pip check`：未发现依赖冲突。
 
 Homebrew 在预发布 macOS 27 上执行 Python bottle 的最后权限整理步骤时报告 `unknown install step: set_permissions`。安装后的解释器、pip、SSL、SQLite 和 readline 均已单独验证可用；项目环境和全部既有测试也已通过。
+

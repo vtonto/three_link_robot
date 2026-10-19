@@ -33,3 +33,4 @@ def animate_robot(points_over_time, *, reach, interval_ms=30):
 
     animation = FuncAnimation(ax.figure, update, frames=len(frames), interval=interval_ms, blit=True)
     return ax.figure, animation  # 调用者需保留 animation 的引用
+

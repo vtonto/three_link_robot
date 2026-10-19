@@ -54,3 +54,4 @@ def test_preview_preserves_link_lengths(q):
     robot = RobotParameters()
     points = preview_fk(q, robot)
     np.testing.assert_allclose(np.linalg.norm(np.diff(points, axis=0), axis=1), robot.lengths)
+
