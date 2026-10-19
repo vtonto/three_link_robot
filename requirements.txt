@@ -1,0 +1,2 @@
+# One source of dependency definitions: pyproject.toml
+-e .[dev]
