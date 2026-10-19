@@ -16,24 +16,24 @@
 
 ## 公式约定
 
-\[
+$$
 \ddot x=J\ddot q+\dot J\dot q,\quad h=c+g,\quad
 a_{cmd}=\ddot x_d+K_d(\dot x_d-J\dot q)+K_p(x_d-x).
-\]
+$$
 
-\[
+$$
 \Lambda=(JM^{-1}J^T)^{-1},\quad
 \bar J=M^{-1}J^T\Lambda,\quad N=I-\bar JJ.
-\]
+$$
 
-\[
+$$
 \tau=h+J^T\Lambda(a_{cmd}-\dot J\dot q)+N^T\tau_0,\quad
 \tau_0=K_{p0}(q_0-q)-K_{d0}\dot q.
-\]
+$$
 
 此版本补偿**完整关节偏置 h**。之前的任务方向补偿写法使用
-\(\eta=\Lambda JM^{-1}h-\Lambda\dot J\dot q\)，两种写法的主任务加速度相同，
-但完整补偿额外包含 \(N^Th\)，因此冗余运动不同，不能重复添加 h。
+$\eta=\Lambda JM^{-1}h-\Lambda\dot J\dot q$，两种写法的主任务加速度相同，
+但完整补偿额外包含 $N^Th$，因此冗余运动不同，不能重复添加 h。
 姿态参考不一定与主任务兼容，不能要求三个关节同时收敛到任意 q0。
 
 可展开提示：
@@ -42,10 +42,10 @@ a_{cmd}=\ddot x_d+K_d(\dot x_d-J\dot q)+K_p(x_d-x).
 
 令 theta=cumsum(q)、omega=cumsum(dq)，则
 
-\[
+$$
 \dot J\dot q=-\sum_{i=1}^3 l_i\omega_i^2
 \begin{bmatrix}\cos\theta_i\\\sin\theta_i\end{bmatrix}.
-\]
+$$
 
 这里用到的是每根连杆的绝对角速度，而不是单个关节相对角速度。
 </details>
