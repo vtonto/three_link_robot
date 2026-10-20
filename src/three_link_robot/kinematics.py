@@ -10,7 +10,14 @@ def jacobian_dot_times_dq(q, dq, robot):
     取 ddq=0 时的部分。它不是 J @ ddq，也不是完整末端加速度。
     用沿 dq 方向的 Jacobian 中心差分验证，不要通过积分估计。
     """
-    raise NotImplementedError("OSC-01: implement jacobian_dot_times_dq in kinematics.py")
+    theta = np.cumsum(q)
+    omega = np.cumsum(dq)
+    lengths = robot.lengths
+    jdot_dq = - np.array([
+        np.sum(lengths * omega**2 * np.cos(theta)),
+        np.sum(lengths * omega**2 * np.sin(theta)),
+    ])
+    return jdot_dq
 
 def forward_kinematics(q: np.ndarray, robot: RobotParameters) -> np.ndarray:
     """返回 (4, 2)：基座、关节2、关节3、末端的世界坐标，单位 m。"""

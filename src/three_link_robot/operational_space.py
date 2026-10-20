@@ -37,7 +37,9 @@ def task_inertia(J, M):
     用 solve(M,J.T) 和 solve(A,eye(2))，不要显式 inv(M)。
     调用者先检查 J 满行秩；M 来自已经验证的机器人模型。
     """
-    raise NotImplementedError("OSC-02: implement task_inertia in operational_space.py")
+    A = J @ np.linalg.solve(M,J.T)
+    Lambda = np.linalg.solve(A, np.eye(2))
+    return Lambda
 
 
 def task_torque(J, Lambda, h, a_cmd, jdot_dq):
@@ -46,7 +48,8 @@ def task_torque(J, Lambda, h, a_cmd, jdot_dq):
     h 是关节空间的 c+g，不可直接与二维任务力相加。
     这里的力矩已经包含完整 h；外层不要再添加一次重力补偿。
     """
-    raise NotImplementedError("OSC-03: implement task_torque in operational_space.py")
+    tau = h + J.T @ Lambda @ (a_cmd - jdot_dq)
+    return tau
 
 
 def nullspace_projector(J, M, Lambda):
@@ -55,7 +58,9 @@ def nullspace_projector(J, M, Lambda):
     N 投影关节速度；力矩应使用 N.T@tau0。验证 J@N=0、
     J@solve(M,N.T)=0。N 通常不对称，不能省略转置。
     """
-    raise NotImplementedError("OSC-04: implement nullspace_projector in operational_space.py")
+    Jbar = np.linalg.solve(M, J.T) @ Lambda
+    N = np.eye(3) - Jbar @ J
+    return N
 
 
 def task_diagnostics(q, robot):
