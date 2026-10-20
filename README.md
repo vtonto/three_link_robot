@@ -5,8 +5,8 @@
 已实现 FK、二维位置 Jacobian、阻尼最小二乘 IK、六维 RNEA、M/c/g 提取、正向动力学、关节 PD、重力补偿与计算力矩控制。
 验证范围和局限见 [技术总结](docs/technical_summary.md)。
 
-**新增 OSC 学习框架：外围连接与实验入口已完成，四个核心公式留给学习者填写。**
-未完成公式显式抛出 `NotImplementedError`，不会返回零值或生成虚构的闭环结果。
+OSC 的四个核心练习已经实现并通过测试；[OSC 学习指南](docs/osc_learning.md)与实验 Notebook 仍可用于复习推导和验证。
+新一阶段的阻抗与接触力练习保留两个控制律入口供学习者填写；未完成时显式抛出 `NotImplementedError`，不会生成虚构的闭环结果。
 
 ## 安装和运行
 
@@ -45,6 +45,20 @@ python -m examples.demo_osc --task nullspace --show
 TODO 未完成时测试明确 skipped，实验报错退出；skipped 不等于验证通过。
 实验默认无窗口输出到 `artifacts/osc_<task>.png`。不要从完全伸直的零构型开始未阻尼 OSC。
 
+## 阻抗与接触力练习
+
+OSC 完成后，按 [交互控制学习指南](docs/interaction_learning.md) 练习 `impedance_wrench`（INT-01）和
+`hybrid_force_wrench`（INT-02）。外围已提供竖直弹性墙、环境力进入动力学的连接、法向力误差积分状态、
+自由空间/碰墙/法向控力与切向控位三组实验，以及 [交互控制 Notebook](notebooks/02_interaction_lab.ipynb)。
+两个控制律未实现时，练习测试会明确跳过，演示不会生成伪结果。
+
+```bash
+python -m pytest tests/test_interaction.py -q -rs
+python -m examples.demo_interaction --task free
+python -m examples.demo_interaction --task wall
+python -m examples.demo_interaction --task force
+```
+
 ## Jupyter / iPad
 
 ```bash
@@ -52,8 +66,8 @@ python -m pip install -e '.[dev,notebook]'
 python -m jupyterlab
 ```
 
-打开 [01_osc_lab.ipynb](notebooks/01_osc_lab.ipynb)。公式未填时可以观察初始构型、参考轨迹和奇异值，
-填完后可以直接运行闭环并查看内嵌曲线与可选 HTML 动画。核心实现仍保存在 src/，无需复制到单元格。
+打开 [01_osc_lab.ipynb](notebooks/01_osc_lab.ipynb) 复习 OSC；[02_interaction_lab.ipynb](notebooks/02_interaction_lab.ipynb)
+用于新阶段的接触练习。核心实现仍保存在 src/，无需复制到单元格。
 
 iPad 可作为浏览器客户端连接经过认证的 Mac/云端 Jupyter，Python 由服务器执行；
 Mac 需要保持唤醒和网络可达。此项目尚未在真实 iPad 上实测，连接配置见 OSC 学习指南。
@@ -69,6 +83,9 @@ Mac 需要保持唤醒和网络可达。此项目尚未在真实 iPad 上实测�
 - `src/three_link_robot/simulation/`：通用积分器和机器人闭环连接。
 - `examples/demo_osc.py`、`notebooks/01_osc_lab.ipynb`：共用实验函数的两种入口。
 - `tests/test_osc.py`：轨迹导数、奇异性、任务加速度与零空间解耦验证。
+- `src/three_link_robot/contact.py`、`interaction_trajectory.py`：弹性墙、接触状态方程和力参考。
+- `src/three_link_robot/interaction_controller.py`：阻抗力与混合力/位置控制练习入口。
+- `examples/demo_interaction.py`、`tests/test_interaction.py`：交互控制演示与验收。
 
 ## 统一约定与范围
 
@@ -76,6 +93,6 @@ Mac 需要保持唤醒和网络可达。此项目尚未在真实 iPad 上实测�
 关节向量 `(3,)`，二维任务向量 `(2,)`，Jacobian `(2,3)`，状态 `[q,dq]` 为 `(6,)`。
 采用 SI 单位与 `M(q) @ ddq + c(q,dq) + g(q) = tau`；c 是力矩向量。
 
-当前不含摩擦、碰撞、关节限位、力矩饱和、模型失配或离散控制周期。
+当前仅新增单边弹性墙接触；不含摩擦、刚性碰撞求解、关节限位、力矩饱和、模型失配或离散控制周期。
 OSC 使用完整 h=c+g 补偿，零空间力矩用 N.T 投影；精确解耦依赖精确模型和 Jacobian 满行秩。
 这不是通用三维多体引擎，也不代表真机鲁棒性或全局稳定性已得到验证。

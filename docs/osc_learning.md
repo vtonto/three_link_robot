@@ -4,8 +4,8 @@
 
 ## 当前完成与待完成
 
-外围已完成：二维参考轨迹、控制器连接、奇异构型检查、三组实验、曲线输出和 Notebook。
-核心算法特意留为四个练习，抛出 `NotImplementedError`。测试显示 skipped 表示未完成，不能当作控制器验证通过。
+外围包括二维参考轨迹、控制器连接、奇异构型检查、三组实验、曲线输出和 Notebook。
+以下四个练习目前已由学习者实现并通过测试；保留顺序、公式和验收方法供复习。若重新留空练习，`NotImplementedError` 对应的 skipped 只表示未完成。
 
 1. **OSC-01**：`kinematics.py` 中 `jacobian_dot_times_dq`。
 2. **OSC-02**：`operational_space.py` 中 `task_inertia`。
@@ -69,7 +69,7 @@ python -m examples.demo_osc --task circle
 python -m examples.demo_osc --task nullspace --show
 ```
 
-未填写时实验以退出码 2 提示对应 TODO；不会输出轨迹图。默认图保存在 artifacts；Notebook 直接内嵌显示。
+若练习函数未填写，实验以退出码 2 提示对应 TODO，不会输出轨迹图。成功时默认图保存在 artifacts；Notebook 直接内嵌显示。
 初始构型为 `[0.5,-1.1,0.8]` rad，避免伸直奇异点；圆半径 0.05 m。
 默认最小奇异值保护阈值为 1e-4 m/rad。它只检测当前评估构型，不保证全轨迹可达或不越过奇异点。
 目前没有阻尼广义逆；加入阻尼后不能继续声称严格的零空间解耦。
@@ -96,11 +96,11 @@ iPad 可以通过浏览器访问 Mac 上经过认证的 Jupyter 服务；Mac 须
 也可以将仓库检出到云端 Jupyter 后安装同样的依赖。云端是独立副本，修改需通过 Git 同步；
 当前 Notebook 未在真实 iPad、Safari 或 Colab 中实测。无需 GPU。
 
-## 框架交付验证
+## 框架交付时的验证记录
 
 原有 20 项测试通过；含新增外围测试的学习版本为 22 passed、6 skipped。
 临时在内存注入参考公式（不写入练习文件）后为 28 passed，并运行了三组 5 秒闭环实验、检查曲线。
-这些结果验证外围框架，不表示仓库中的四个 TODO 已完成。
+这些数字是当时的外围框架验证记录；四个 OSC 练习后来已实现并通过现有测试。
 
 当前验证环境禁止 Jupyter 内核的 TCP/IPC 通信，因此未完成独立内核测试。
 Notebook 的全部代码单元已使用进程内 IPython 按顺序执行，并检查初始构型图；
